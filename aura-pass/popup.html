@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Pass</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Aura Pass</h1>
+        </header>
+
+        <div class="password-display-container">
+            <input type="text" id="passwordDisplay" readonly aria-label="Generated password">
+            <button id="copyButton" class="icon-button" aria-label="Copy password">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+            </button>
+            <span id="copyMessage">Copied!</span>
+        </div>
+        
+        <div class="strength-indicator">
+            <div class="strength-bar" id="strengthBar"></div>
+            <span id="strengthText">Weak</span>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="lengthSlider">Password Length: <span id="lengthValue">16</span></label>
+                <input type="range" id="lengthSlider" min="4" max="50" value="16" aria-label="Password length">
+            </div>
+
+            <div class="options">
+                <div class="option">
+                    <input type="checkbox" id="includeUppercase" checked>
+                    <label for="includeUppercase">Uppercase (A-Z)</label>
+                </div>
+                <div class="option">
+                    <input type="checkbox" id="includeLowercase" checked>
+                    <label for="includeLowercase">Lowercase (a-z)</label>
+                </div>
+                <div class="option">
+                    <input type="checkbox" id="includeNumbers" checked>
+                    <label for="includeNumbers">Numbers (0-9)</label>
+                </div>
+                <div class="option">
+                    <input type="checkbox" id="includeSymbols" checked>
+                    <label for="includeSymbols">Symbols (!@#...)</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

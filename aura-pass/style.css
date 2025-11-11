@@ -1,0 +1,285 @@
+/* --- CSS Variables (Theming) --- */
+:root {
+    --bg-primary: #191919;
+    --bg-secondary: #2d2d2d;
+    --bg-tertiary: #404040;
+    --text-primary: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --primary-accent: #3b82f6; /* A clean, modern blue */
+    --primary-accent-hover: #60a5fa;
+    --success-color: #22c55e;
+    --danger-color: #ef4444;
+    --warning-color: #f59e0b;
+    --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --transition-fast: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* --- Base Styles --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    width: 380px;
+    padding: 1.25rem;
+}
+
+/* --- Header --- */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+/* --- Password Display & Copy --- */
+.password-display-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+#passwordDisplay {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2rem;
+    font-weight: 500;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    flex-grow: 1;
+    padding: 0.5rem;
+    letter-spacing: 0.5px;
+}
+
+#passwordDisplay:focus {
+    outline: none;
+}
+
+.icon-button {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-button svg {
+    transition: var(--transition-fast);
+}
+
+.icon-button:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-tertiary);
+}
+
+.icon-button:active {
+    transform: scale(0.92);
+}
+
+/* Refresh button animation */
+#generateButton:active svg {
+    transform: rotate(180deg);
+}
+
+#copyMessage {
+    position: absolute;
+    right: 4rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--success-color);
+    color: var(--bg-primary);
+    font-weight: 500;
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    pointer-events: none;
+}
+
+#copyMessage.show {
+    opacity: 1;
+    transform: translateY(-50%) translateX(-0.5rem);
+}
+
+/* --- Strength Indicator --- */
+.strength-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+#strengthBar {
+    height: 6px;
+    flex-grow: 1;
+    background-color: var(--bg-secondary);
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+
+/* Strength levels */
+#strengthBar.weak { background-color: var(--danger-color); }
+#strengthBar.medium { background-color: var(--warning-color); }
+#strengthBar.strong { background-color: var(--success-color); }
+
+#strengthText {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+}
+
+#strengthText.weak { color: var(--danger-color); }
+#strengthText.medium { color: var(--warning-color); }
+#strengthText.strong { color: var(--success-color); }
+
+
+/* --- Controls --- */
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.control-group label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+/* --- Custom Slider --- */
+input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    background: var(--bg-secondary);
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--primary-accent);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    border: 3px solid var(--bg-primary);
+}
+
+input[type=range]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: var(--primary-accent);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    border: 3px solid var(--bg-primary);
+}
+
+input[type=range]:hover::-webkit-slider-thumb {
+    background: var(--primary-accent-hover);
+}
+input[type=range]:hover::-moz-range-thumb {
+    background: var(--primary-accent-hover);
+}
+
+/* --- Custom Checkboxes --- */
+.options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-secondary);
+    padding: 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.option:hover {
+    background-color: var(--bg-tertiary);
+}
+
+.option label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding-left: 0.5rem;
+}
+
+input[type=checkbox] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: var(--bg-primary);
+    margin: 0;
+    font: inherit;
+    color: currentColor;
+    width: 1.15em;
+    height: 1.15em;
+    border: 0.15em solid var(--text-secondary);
+    border-radius: 0.25em;
+    transform: translateY(-0.075em);
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+input[type=checkbox]::before {
+    content: "";
+    width: 0.65em;
+    height: 0.65em;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em var(--primary-accent);
+    background-color: var(--primary-accent);
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+input[type=checkbox]:checked {
+    border-color: var(--primary-accent);
+}
+
+input[type=checkbox]:checked::before {
+    transform: scale(1.1);
+}
