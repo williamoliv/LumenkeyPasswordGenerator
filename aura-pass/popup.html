@@ -13,6 +13,15 @@
     <div class="container">
         <header>
             <h1>Aura Pass</h1>
+            <div class="theme-switch-wrapper">
+                <input type="checkbox" id="themeSwitch" aria-label="Toggle theme">
+                <label for="themeSwitch" class="toggle-label">
+                    <div class="toggle-handle">
+                        <span class="sun-icon">☀️</span>
+                        <span class="moon-icon">🌙</span>
+                    </div>
+                </label>
+            </div>
         </header>
 
         <div class="password-display-container">
@@ -31,7 +40,7 @@
         <div class="controls">
             <div class="control-group">
                 <label for="lengthSlider">Password Length: <span id="lengthValue">16</span></label>
-                <input type="range" id="lengthSlider" min="4" max="50" value="16" aria-label="Password length">
+                <input type="range" id="lengthSlider" min="4" max="50" value="16" aria-label="Password length" style="--slider-progress: 30%;">
             </div>
 
             <div class="options">

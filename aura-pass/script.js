@@ -11,6 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const copyMessage = document.getElementById('copyMessage');
     const strengthBar = document.getElementById('strengthBar');
     const strengthText = document.getElementById('strengthText');
+    
+    // **New Theme Element**
+    const themeSwitch = document.getElementById('themeSwitch');
 
     // --- Character Sets ---
     const CHAR_SETS = {
@@ -20,49 +23,35 @@ document.addEventListener('DOMContentLoaded', () => {
         SYMBOLS: '!@#$%^&*()_+-=[]{}|;:,.<>?'
     };
 
-    /**
-     * Securely generates a random integer within a range.
-     * Uses Web Crypto API for true randomness.
-     */
+    // --- Password Generation ---
     function getRandomInt(max) {
         const randomBuffer = new Uint32Array(1);
         crypto.getRandomValues(randomBuffer);
         return randomBuffer[0] % (max + 1);
     }
 
-    /**
-     * Generates a password, updates the display, and saves preferences.
-     * This is the central function.
-     */
     function generatePassword() {
         try {
             let availableChars = '';
             let password = '';
             const length = parseInt(lengthSlider.value, 10);
 
-            // Build available character set
             if (includeUppercase.checked) availableChars += CHAR_SETS.UPPERCASE;
             if (includeLowercase.checked) availableChars += CHAR_SETS.LOWERCASE;
             if (includeNumbers.checked) availableChars += CHAR_SETS.NUMBERS;
             if (includeSymbols.checked) availableChars += CHAR_SETS.SYMBOLS;
 
-            // **Error Handling/Fallback:**
-            // If no boxes are checked, default to lowercase to avoid errors.
             if (availableChars.length === 0) {
                 availableChars = CHAR_SETS.LOWERCASE;
-                includeLowercase.checked = true; // Visually re-check the box
+                includeLowercase.checked = true;
             }
 
-            // Generate the password
             for (let i = 0; i < length; i++) {
                 const randomIndex = getRandomInt(availableChars.length - 1);
                 password += availableChars[randomIndex];
             }
 
-            // **Display the password**
             passwordDisplay.value = password;
-
-            // Update strength and save settings
             updateStrengthIndicator(password);
             savePreferences();
 
@@ -72,10 +61,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /**
-     * Updates the password strength indicator in real-time.
-     */
+    // --- UI & State Functions ---
+
     function updateStrengthIndicator(password) {
+        // (Function unchanged)
         let score = 0;
         if (password.length >= 8) score++;
         if (password.length >= 16) score++;
@@ -102,10 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /**
-     * Copies the password to the clipboard.
-     */
     function copyPassword() {
+        // (Function unchanged)
         if (!passwordDisplay.value) return;
         navigator.clipboard.writeText(passwordDisplay.value).then(() => {
             copyMessage.classList.add('show');
@@ -118,15 +105,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * Updates the length value display when slider changes.
+     * Updates the slider's "progress" bar.
      */
-    function updateLengthDisplay() {
-        lengthValue.textContent = lengthSlider.value;
+    function updateSliderProgress() {
+        const min = lengthSlider.min;
+        const max = lengthSlider.max;
+        const value = lengthSlider.value;
+        const percent = ((value - min) / (max - min)) * 100;
+        lengthSlider.style.setProperty('--slider-progress', `${percent}%`);
     }
 
     /**
-     * Saves user preferences to local storage.
+     * Updates the length value display and the slider progress.
      */
+    function updateLengthDisplay() {
+        lengthValue.textContent = lengthSlider.value;
+        updateSliderProgress(); // Update the progress bar fill
+    }
+
     function savePreferences() {
         const preferences = {
             length: lengthSlider.value,
@@ -138,9 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
         chrome.storage.local.set({ passwordPrefs: preferences });
     }
 
-    /**
-     * Loads user preferences and triggers initial password generation.
-     */
     function loadPreferences() {
         chrome.storage.local.get(['passwordPrefs'], (result) => {
             const prefs = result.passwordPrefs;
@@ -151,32 +144,74 @@ document.addEventListener('DOMContentLoaded', () => {
                 includeNumbers.checked = prefs.numbers !== false;
                 includeSymbols.checked = prefs.symbols !== false;
             }
-            
-            // **FIX: Generate password on load**
-            // This is the key for "generate on open"
             updateLengthDisplay();
             generatePassword();
         });
     }
 
-    // --- Event Listeners (Real-Time Updates) ---
+    // --- ✨ New Theme Management Logic ✨ ---
 
-    // When slider moves, update text and regenerate password
+    /**
+     * Applies the theme to the DOM.
+     */
+    function applyTheme(theme) {
+        if (theme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+            themeSwitch.checked = true;
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+            themeSwitch.checked = false;
+        }
+    }
+
+    /**
+     * Saves the theme preference to storage.
+     */
+    function saveTheme(theme) {
+        chrome.storage.local.set({ theme: theme });
+    }
+
+    /**
+     * Loads the theme from storage or system preference.
+     */
+    function loadTheme() {
+        chrome.storage.local.get(['theme'], (result) => {
+            let theme = result.theme;
+            
+            // If no theme is saved, check system preference
+            if (!theme) {
+                theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            
+            applyTheme(theme);
+        });
+    }
+
+    // --- Event Listeners ---
+    
+    // Slider: Update length text and re-generate password
     lengthSlider.addEventListener('input', () => {
         updateLengthDisplay();
         generatePassword();
     });
 
-    // When any checkbox is changed, regenerate password
+    // Checkboxes: Re-generate password on change
     const allCheckboxes = [includeUppercase, includeLowercase, includeNumbers, includeSymbols];
     allCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', generatePassword);
     });
 
-    // Copy button listener
+    // Copy Button
     copyButton.addEventListener('click', copyPassword);
 
+    // **New Theme Switch Listener**
+    themeSwitch.addEventListener('change', () => {
+        const newTheme = themeSwitch.checked ? 'light' : 'dark';
+        applyTheme(newTheme);
+        saveTheme(newTheme);
+    });
+
     // --- Initialization ---
-    // Load preferences, which will then trigger the first password generation.
-    loadPreferences();
+    loadTheme();
+    loadPreferences(); // This also calls updateLengthDisplay() and generatePassword()
 });
