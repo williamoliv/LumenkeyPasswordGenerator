@@ -149,8 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- ✨ New Theme Management Logic ✨ ---
-
     /**
      * Applies the theme to the DOM.
      */
@@ -187,7 +185,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Event Listeners ---
     
     // Slider: Update length text and re-generate password
     lengthSlider.addEventListener('input', () => {

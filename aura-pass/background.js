@@ -6,17 +6,12 @@ const CHAR_SETS = {
     SYMBOLS: '!@#$%^&*()_+-=[]{}|;:,.<>?'
 };
 
-// --- Secure Randomness ---
 function getRandomInt(max) {
     const randomBuffer = new Uint32Array(1);
     crypto.getRandomValues(randomBuffer);
     return randomBuffer[0] % (max + 1);
 }
 
-/**
- * Generates a password based on stored settings.
- * This logic is duplicated from the popup script to work in the background.
- */
 async function generatePasswordFromStorage() {
     return new Promise((resolve) => {
         chrome.storage.local.get(['passwordPrefs'], (result) => {
@@ -52,7 +47,6 @@ async function generatePasswordFromStorage() {
 
 // --- Context Menu Setup ---
 
-// 1. Create the menu item on installation
 chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create({
         id: "lumenkey-generate",
@@ -61,12 +55,10 @@ chrome.runtime.onInstalled.addListener(() => {
     });
 });
 
-// 2. Listen for a click on our menu item
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     if (info.menuItemId === "lumenkey-generate") {
         const newPassword = await generatePasswordFromStorage();
-        
-        // 3. Send the generated password to the content script in the active tab
+
         chrome.tabs.sendMessage(tab.id, {
             type: "inject-password",
             password: newPassword
