@@ -197,9 +197,27 @@ h1 {
 /* --- Strength Indicator --- */
 .strength-indicator {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 0.5rem;
     margin-bottom: 1.5rem;
+}
+
+.strength-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+#crackTime {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+}
+
+#timeValue {
+    font-weight: 600;
+    color: var(--primary-accent);
 }
 
 #strengthBar {

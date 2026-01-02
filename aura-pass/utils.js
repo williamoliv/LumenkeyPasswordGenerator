@@ -61,6 +61,49 @@ function generatePasswordLogic(options) {
     return password;
 }
 
-// Make functions globally available for importScripts or standard script tags
+/**
+ * Calculates the entropy of a password.
+ * H = L * log2(N)
+ * @param {string} password 
+ * @returns {number} Entropy in bits
+ */
+function calculateEntropyLogic(password) {
+    if (!password) return 0;
+
+    let poolSize = 0;
+    if (/[a-z]/.test(password)) poolSize += 26;
+    if (/[A-Z]/.test(password)) poolSize += 26;
+    if (/[0-9]/.test(password)) poolSize += 10;
+    if (/[^a-zA-Z0-9]/.test(password)) poolSize += 32; // Approx symbols
+
+    if (poolSize === 0) return 0;
+
+    return password.length * Math.log2(poolSize);
+}
+
+/**
+ * Estimates the time to crack the password.
+ * @param {number} entropy bits
+ * @returns {string} Human readable time
+ */
+function estimateCrackTimeLogic(entropy) {
+    // Assume 100 Billion guesses per second (10^11) - Moderate GPU cluster
+    const guessesPerSecond = 1e11;
+    const seconds = Math.pow(2, entropy) / guessesPerSecond;
+
+    if (seconds < 1) return "Instant";
+    if (seconds < 60) return "Less than a minute";
+    if (seconds < 3600) return `${Math.round(seconds / 60)} minutes`;
+    if (seconds < 86400) return `${Math.round(seconds / 3600)} hours`;
+    if (seconds < 2592000) return `${Math.round(seconds / 86400)} days`; // 30 days
+    if (seconds < 31536000) return `${Math.round(seconds / 2592000)} months`; // 12 months
+    if (seconds < 3153600000) return `${Math.round(seconds / 31536000)} years`; // 100 years
+
+    return "Centuries";
+}
+
+// Make functions globally available
 self.generatePasswordLogic = generatePasswordLogic;
 self.CHAR_SETS = CHAR_SETS;
+self.calculateEntropyLogic = calculateEntropyLogic;
+self.estimateCrackTimeLogic = estimateCrackTimeLogic;

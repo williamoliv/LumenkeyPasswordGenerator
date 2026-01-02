@@ -44,7 +44,10 @@
 
         <div class="strength-indicator">
             <div class="strength-bar" id="strengthBar"></div>
-            <span id="strengthText">Weak</span>
+            <div class="strength-details">
+                <span id="strengthText">Weak</span>
+                <span id="crackTime">Time to crack: <span id="timeValue">Instant</span></span>
+            </div>
         </div>
 
         <div class="controls">
@@ -71,10 +74,14 @@
                     <input type="checkbox" id="includeSymbols" checked>
                     <label for="includeSymbols">Symbols (!@#...)</label>
                 </div>
-                <!-- New Option -->
                 <div class="option full-width">
                     <input type="checkbox" id="excludeSimilar">
                     <label for="excludeSimilar">Exclude Similar (l, 1, I, O, 0)</label>
+                </div>
+                <!-- New Option -->
+                <div class="option full-width">
+                    <input type="checkbox" id="autoCopy">
+                    <label for="autoCopy">Auto-copy on Generate</label>
                 </div>
             </div>
         </div>
