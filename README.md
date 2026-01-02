@@ -1,8 +1,8 @@
 
-🔑 Lumenkey - Effortless Password Generation
+Lumenkey - Effortless Password Generation
 A lightweight and efficient Google Chrome Extension designed to generate strong, secure, and unique passwords right from your browser. Say goodbye to weak passwords and hello to effortless security with Lumenkey!
 
-✨ Features
+Features
 Customizable Length: Easily adjust the desired length of your password.
 
 Character Selection: Include or exclude Uppercase letters, Lowercase letters, Numbers, and Symbols with simple toggles.
@@ -13,7 +13,7 @@ Simple & Fast: A non-intrusive interface that delivers a secure password instant
 
 Open Source: Transparent code for you to review and trust.
 
-🚀 Installation
+Installation
 Lumenkey is available on the Chrome Web Store.
 
 Visit the official extension page:
@@ -22,10 +22,10 @@ https://chromewebstore.google.com/detail/lumenkey/agiacemhpdjibiiemgcbojkacofpci
 
 Click the "Add to Chrome" button.
 
-Pin the extension icon (🔑) to your toolbar for quick access!
+Pin the extension icon to your toolbar for quick access!
 
-⚙️ How to Use
-Click the Lumenkey (🔑) icon in your Chrome toolbar.
+How to Use
+Click the Lumenkey icon in your Chrome toolbar.
 
 Use the controls to select your desired password length and the types of characters you want to include (e.g., symbols, numbers).
 
