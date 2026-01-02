@@ -8,11 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const includeNumbers = document.getElementById('includeNumbers');
     const includeSymbols = document.getElementById('includeSymbols');
     const excludeSimilar = document.getElementById('excludeSimilar'); // New
+    const autoCopy = document.getElementById('autoCopy'); // New
     const copyButton = document.getElementById('copyButton');
     const regenerateButton = document.getElementById('regenerateButton'); // New
     const copyMessage = document.getElementById('copyMessage');
     const strengthBar = document.getElementById('strengthBar');
     const strengthText = document.getElementById('strengthText');
+    const timeValue = document.getElementById('timeValue'); // New
 
     // History Elements
     const toggleHistory = document.getElementById('toggleHistory');
@@ -25,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- State ---
     let passwordHistory = [];
+    let isInitialLoad = true; // Flag to prevent auto-copy on open
 
     // --- Password Generation ---
     function generatePassword() {
@@ -42,8 +45,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
             passwordDisplay.value = password;
             updateStrengthIndicator(password);
+
+            // Calculate and display crack time
+            const entropy = self.calculateEntropyLogic(password);
+            const timeToCrack = self.estimateCrackTimeLogic(entropy);
+            if (timeValue) timeValue.textContent = timeToCrack;
+
             savePreferences();
             addToHistory(password); // Add to history
+
+            // Auto Copy Logic
+            if (autoCopy.checked && !isInitialLoad) {
+                copyPassword();
+            }
 
         } catch (error) {
             console.error("Error generating password:", error);
@@ -183,7 +197,8 @@ document.addEventListener('DOMContentLoaded', () => {
             lowercase: includeLowercase.checked,
             numbers: includeNumbers.checked,
             symbols: includeSymbols.checked,
-            excludeSimilar: excludeSimilar.checked // Save new pref
+            excludeSimilar: excludeSimilar.checked, // Save new pref
+            autoCopy: autoCopy.checked // Save new pref
         };
         chrome.storage.local.set({ passwordPrefs: preferences });
     }
@@ -198,9 +213,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 includeNumbers.checked = prefs.numbers !== false;
                 includeSymbols.checked = prefs.symbols !== false;
                 excludeSimilar.checked = prefs.excludeSimilar === true;
+                autoCopy.checked = prefs.autoCopy === true;
             }
             updateLengthDisplay();
             generatePassword(); // This will also save to history immediately
+            // After initial generation, set flag to false so subsequent changes trigger auto-copy
+            isInitialLoad = false;
         });
     }
 
@@ -238,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Checkboxes
-    const allCheckboxes = [includeUppercase, includeLowercase, includeNumbers, includeSymbols, excludeSimilar];
+    const allCheckboxes = [includeUppercase, includeLowercase, includeNumbers, includeSymbols, excludeSimilar, autoCopy];
     allCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', generatePassword);
     });
