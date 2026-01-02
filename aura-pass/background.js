@@ -1,45 +1,25 @@
-// --- Character Sets ---
-const CHAR_SETS = {
-    UPPERCASE: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-    LOWERCASE: 'abcdefghijklmnopqrstuvwxyz',
-    NUMBERS: '0123456789',
-    SYMBOLS: '!@#$%^&*()_+-=[]{}|;:,.<>?'
-};
-
-function getRandomInt(max) {
-    const randomBuffer = new Uint32Array(1);
-    crypto.getRandomValues(randomBuffer);
-    return randomBuffer[0] % (max + 1);
+try {
+    importScripts('utils.js');
+} catch (e) {
+    console.error(e);
 }
 
 async function generatePasswordFromStorage() {
     return new Promise((resolve) => {
         chrome.storage.local.get(['passwordPrefs'], (result) => {
             const prefs = result.passwordPrefs || {};
-            
+
             // Set defaults if no prefs are saved
-            const length = prefs.length || 16;
-            const includeUppercase = prefs.uppercase !== false;
-            const includeLowercase = prefs.lowercase !== false;
-            const includeNumbers = prefs.numbers !== false;
-            const includeSymbols = prefs.symbols !== false;
+            const options = {
+                length: prefs.length || 16,
+                uppercase: prefs.uppercase !== false,
+                lowercase: prefs.lowercase !== false,
+                numbers: prefs.numbers !== false,
+                symbols: prefs.symbols !== false,
+                excludeSimilar: prefs.excludeSimilar === true // Default false
+            };
 
-            let availableChars = '';
-            if (includeUppercase) availableChars += CHAR_SETS.UPPERCASE;
-            if (includeLowercase) availableChars += CHAR_SETS.LOWERCASE;
-            if (includeNumbers) availableChars += CHAR_SETS.NUMBERS;
-            if (includeSymbols) availableChars += CHAR_SETS.SYMBOLS;
-
-            // Fallback
-            if (availableChars.length === 0) {
-                availableChars = CHAR_SETS.LOWERCASE;
-            }
-
-            let password = '';
-            for (let i = 0; i < length; i++) {
-                const randomIndex = getRandomInt(availableChars.length - 1);
-                password += availableChars[randomIndex];
-            }
+            const password = self.generatePasswordLogic(options);
             resolve(password);
         });
     });

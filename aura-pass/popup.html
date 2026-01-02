@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -24,12 +26,22 @@
 
         <div class="password-display-container">
             <input type="text" id="passwordDisplay" readonly aria-label="Generated password">
+            <button id="regenerateButton" class="icon-button" aria-label="Regenerate password">
+                <svg xmlns="http://www.w.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3" />
+                </svg>
+            </button>
             <button id="copyButton" class="icon-button" aria-label="Copy password">
-                <svg xmlns="http://www.w.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <svg xmlns="http://www.w.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                    <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                </svg>
             </button>
             <span id="copyMessage">Copied!</span>
         </div>
-        
+
         <div class="strength-indicator">
             <div class="strength-bar" id="strengthBar"></div>
             <span id="strengthText">Weak</span>
@@ -38,7 +50,8 @@
         <div class="controls">
             <div class="control-group">
                 <label for="lengthSlider">Password Length: <span id="lengthValue">16</span></label>
-                <input type="range" id="lengthSlider" min="4" max="50" value="16" aria-label="Password length" style="--slider-progress: 30%;">
+                <input type="range" id="lengthSlider" min="4" max="50" value="16" aria-label="Password length"
+                    style="--slider-progress: 30%;">
             </div>
 
             <div class="options">
@@ -58,9 +71,28 @@
                     <input type="checkbox" id="includeSymbols" checked>
                     <label for="includeSymbols">Symbols (!@#...)</label>
                 </div>
+                <!-- New Option -->
+                <div class="option full-width">
+                    <input type="checkbox" id="excludeSimilar">
+                    <label for="excludeSimilar">Exclude Similar (l, 1, I, O, 0)</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Section -->
+        <div class="history-section">
+            <div class="history-header" id="toggleHistory">
+                <h3>History</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="history-list-container hidden" id="historyContainer">
+                <ul id="historyList"></ul>
+                <button id="clearHistory" class="clear-btn">Clear History</button>
             </div>
         </div>
     </div>
+    <script src="utils.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>
