@@ -1,36 +1,50 @@
+# LumenKey - Password Generator
 
-Lumenkey - Effortless Password Generation
-A lightweight and efficient Google Chrome Extension designed to generate strong, secure, and unique passwords right from your browser. Say goodbye to weak passwords and hello to effortless security with Lumenkey!
+LumenKey is a lightweight and efficient browser extension designed to generate strong, secure, and unique passwords. Focused on security, speed, and a premium user experience, LumenKey helps you eliminate weak passwords and protect your digital identity with ease.
 
-Features
-Customizable Length: Easily adjust the desired length of your password.
+## Key Features
 
-Character Selection: Include or exclude Uppercase letters, Lowercase letters, Numbers, and Symbols with simple toggles.
+### Security and Strength
+- **Time to Crack Estimator**: Real-time entropy analysis provides instant feedback on password strength, estimating the time required for a brute-force attack.
+- **Enhanced Readability**: Option to exclude similar characters (such as l, 1, I, O, 0) to prevent confusion when manually entering passwords.
+- **Local Operation**: All processing happens 100% locally on your device. Your data never leaves your browser.
 
-One-Click Copy: Generated passwords are automatically copied to your clipboard, ready to be pasted.
+### Efficiency and Integration
+- **Context-Menu Support**: Right-click any form field and select "Generate with LumenKey" to instantly fill it with a secure password.
+- **Smart Auto-Copy**: Automatically copies newly generated passwords to your clipboard for a seamless workflow.
+- **Password History**: Access your last 10 generated passwords to ensure you never lose a crucial credential.
+- **Regenerate Button**: Instantly refresh and create a new password with a single click.
 
-Simple & Fast: A non-intrusive interface that delivers a secure password instantly.
+### User Experience
+- **Premium Design**: A clean, modern interface with beautiful Light and Dark modes that adapt to your system preferences.
+- **Total Customization**: Adjust password length (up to 50 characters) and toggle between uppercase, lowercase, numbers, and symbols.
+- **Open Source**: Transparent code available for review to ensure trust and security.
 
-Open Source: Transparent code for you to review and trust.
+## Installation
 
-Installation
-Lumenkey is available on the Chrome Web Store.
+1. Visit the [LumenKey page on the Chrome Web Store](https://chromewebstore.google.com/detail/lumenkey/agiacemhpdjibiiemgcbojkacofpcilk).
+2. Click the **Add to Chrome** button.
+3. For the best experience, pin the LumenKey icon to your browser toolbar.
 
-Visit the official extension page:
+## Usage
 
-https://chromewebstore.google.com/detail/lumenkey/agiacemhpdjibiiemgcbojkacofpcilk
+### Quick Generation
+1. Click the LumenKey icon in your toolbar.
+2. Customize your password settings (length and character types).
+3. The password is generated and copied to your clipboard automatically.
 
-Click the "Add to Chrome" button.
+### Context Menu (Recommended)
+1. Right-click any input field on a website.
+2. Select **Generate with LumenKey**.
+3. The field will be automatically populated with a new, strong password.
 
-Pin the extension icon to your toolbar for quick access!
+## Privacy and Security
 
-How to Use
-Click the Lumenkey icon in your Chrome toolbar.
+LumenKey is built with privacy as the core priority:
+- **No Data Collection**: We do not track, collect, or store any of your generated passwords or personal information.
+- **No External Communication**: The extension does not communicate with external servers.
+- **Local Storage**: Your preferences (theme and settings) are stored locally on your machine.
 
-Use the controls to select your desired password length and the types of characters you want to include (e.g., symbols, numbers).
+## Contributing
 
-A new, strong password will be generated automatically.
-
-The generated password is automatically copied to your clipboard.
-
-Paste the password into your desired login or sign-up form!
+LumenKey is an open-source project. Contributions are welcome! Feel free to review the code, report issues, or suggest new features to help improve the security of the web for everyone.
