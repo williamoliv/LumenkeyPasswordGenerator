@@ -39,9 +39,20 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     if (info.menuItemId === "lumenkey-generate") {
         const newPassword = await generatePasswordFromStorage();
 
-        chrome.tabs.sendMessage(tab.id, {
-            type: "inject-password",
-            password: newPassword
+        chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            func: (password) => {
+                const element = document.activeElement;
+                if (element && (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA')) {
+                    const start = element.selectionStart;
+                    const end = element.selectionEnd;
+                    const text = element.value;
+                    element.value = text.substring(0, start) + password + text.substring(end);
+                    element.selectionStart = element.selectionEnd = start + password.length;
+                    element.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+            },
+            args: [newPassword]
         });
     }
 });
